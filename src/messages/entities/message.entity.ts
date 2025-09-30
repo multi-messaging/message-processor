@@ -27,7 +27,7 @@ export class Message {
   @Column('text', { nullable: true })
   content: string;
 
-  @Column('jsonb', { nullable: true })
+  @Column('json', { nullable: true })
   metadata: {
     header?: { type: string; content: string };
     body?: { text: string };

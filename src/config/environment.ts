@@ -5,7 +5,6 @@ import * as joi from 'joi';
 
 interface Environment {
   PORT: number;
-  //RABBITMQ_URL: string;
 
   // Database
   DB_HOST: string;
@@ -13,6 +12,11 @@ interface Environment {
   DB_USER: string;
   DB_PASSWORD: string;
   DB_NAME: string;
+
+  // RabbitMQ
+  RABBITMQ_URL: string;
+  RABBITMQ_QUEUE: string;
+  MP_SERVICE_NAME: string;
 }
 
 const envSchema = joi
@@ -23,6 +27,10 @@ const envSchema = joi
     DB_USER: joi.string().required(),
     DB_PASSWORD: joi.string().required(),
     DB_NAME: joi.string().required(),
+
+    RABBITMQ_URL: joi.string().uri().default('amqp://localhost:5672'),
+    RABBITMQ_QUEUE: joi.string().default('messages_processor_queue'),
+    MP_SERVICE_NAME: joi.string().default('MESSAGES_PROCESSOR_SERVICE'),
   })
   .unknown(true);
 
@@ -42,5 +50,12 @@ export const environment = {
     user: envVars.DB_USER,
     password: envVars.DB_PASSWORD,
     name: envVars.DB_NAME,
+  },
+  rabbitmq: {
+    url: envVars.RABBITMQ_URL,
+    queue: envVars.RABBITMQ_QUEUE,
+  },
+  mp: {
+    serviceName: envVars.MP_SERVICE_NAME,
   },
 };
